@@ -1,22 +1,20 @@
 from PIL import Image, ImageDraw
 
-im = Image.open("evil1.jpg")
-data = im.load()
-w,h = im.size
+im = open("evil2.gfx", 'r')
+data = im.read()
+out = open('evilOut.jpg', 'w');
+i=0
+for byte in data:
+    if (i%5 == 0 ):
+        out.write(byte)
+    i+=1
 
-image = Image.new(im.mode, (w, h))
+out.close()
 
-i,j = (0,0)
-for x in xrange(0, w):
-    for y in xrange(0, h, 6):
-            for i in xrange(0,6):
-                image.putpixel(( x +i, y ), data[x,y])
-                
-            
+# open the file as image 
+
+image = Image.open('evilOut.jpg')
+
 image.show() 
 
-# new image folded in x, 6 
 
-#images.append( Image.new(im.mode, (h / 6 , w / 6 )) )      
-
-#images[1].show()  
