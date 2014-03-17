@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 '''
 Created on Feb 13, 2011
@@ -22,7 +24,7 @@ serviceUser = api.VerifyCredentials()
 print "Service User: ", serviceUser
 print
 
-searchResult = api.GetSearch(term = "chico", geocode=("19.432924","-99.128265", "20mi"))
+searchResult = api.GetSearch(term = "chico", geocode=("19.432924","-99.128265", "20km"))
 
 #searchResult = api.GetSearch(term = "chico", geocode=("Mexico City"))
 
@@ -35,7 +37,7 @@ for result in searchResult:
     print
     print "user:", user
     print "result:", result
-    msg = "@"+user.screen_name + " " +"&#0191;Chico?, pues pr&eacute;stame tu atenci&oacute;n."
+    msg = "@"+user.screen_name + " " +"¿Chico?, pues préstame tu atención.".decode('utf-8')
     if posts<10:
         print msg, result.id
         api.PostUpdate(msg, in_reply_to_status_id=result.id)
