@@ -1,4 +1,4 @@
-import OpenGL 
+import OpenGL
 import math
 from OpenGL.GL import *
 from pyglet.gl import *
@@ -24,19 +24,20 @@ def init():
     blue = vec(0.2, 0.2, 1.0, 1.0)
 
     glLightfv(GL_LIGHT0, GL_POSITION, pos)
-    #glEnable(GL_CULL_FACE)
+    glEnable(GL_CULL_FACE)
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
-    #glEnable(GL_DEPTH_TEST)
+    glEnable(GL_DEPTH_TEST)
 
     glLightfv(GL_LIGHT1, GL_POSITION, pos1)
     glEnable(GL_LIGHT1)
 
 def triangleFace():
     glBegin(GL_TRIANGLES)
+    glVertex3f(0, 0, 0)
     glVertex3f(0.5, h, 0)
     glVertex3f(-0.5, h, 0)
-    glVertex3f(0, 0, 0)
+
     glEnd()
 
 @window.event
@@ -73,13 +74,13 @@ def on_draw():
     glRotatef (angle, -0.5, h, 0.0)
 
     triangleFace()
-    
+
     glPopMatrix()
 
 @window.event
 def on_resize(w, h):
     global pov
-    glViewport (0, 0, w, h) 
+    glViewport (0, 0, w, h)
     glMatrixMode (GL_PROJECTION)
     glLoadIdentity ()
     gluPerspective(60.0, w/h, 1.0, 20.0)
