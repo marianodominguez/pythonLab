@@ -21,7 +21,7 @@ def cone():
 
 def triangle():
   for x in xrange(-width/2,width/2,5):
-    pygame.draw.aaline(screen, (0,0,255) , adjxy(0,0), adjxy(x,height/2) )
+    pygame.draw.aaline(screen, pygame.Color("white") , adjxy(0,0), adjxy(x,height/2) )
     
 def diamond():
     r = 300
@@ -104,10 +104,21 @@ def adjpt(point):
 def side(x):
     return x/2 * sqrt_2 
 
-mode = width,height = 1000,800
+mode = width,height = 800,600
 
 pygame.init()
+
 screen = pygame.display.set_mode(mode)
+
+basicfont = pygame.font.SysFont(None, 48)
+text = basicfont.render('Press number keys 1-8', True, (255, 0, 0), (0, 0, 0))
+textrect = text.get_rect()
+textrect.centerx = screen.get_rect().centerx
+textrect.centery = screen.get_rect().centery
+screen.fill((0,0,0))
+screen.blit(text, textrect)
+pygame.display.update()
+
 l = 0    
 ld =0
 
