@@ -17,11 +17,11 @@ def cone():
   for th in xrange(0,360, 2):
     x1=200 * math.sin(math.radians(th))
     y1=200 * math.cos(math.radians(th))
-    pygame.draw.aaline(screen, (0,255,255) , adjxy(-250 , -200), adjxy(x1,y1) )
+    pygame.draw.aaline(screen, pygame.Color('mistyrose1') , adjxy(-250 , -200), adjxy(x1,y1) )
 
 def triangle():
   for x in xrange(-width/2,width/2,5):
-    pygame.draw.aaline(screen, pygame.Color("white") , adjxy(0,0), adjxy(x,height/2) )
+    pygame.draw.aaline(screen, pygame.Color('coral') , adjxy(0,0), adjxy(x,height/2) )
     
 def diamond():
     r = 300
@@ -31,7 +31,7 @@ def diamond():
         for j in xrange (0, 360, 15):
             x1=r * math.sin(math.radians(j))
             y1=r * math.cos(math.radians(j))
-            pygame.draw.aaline(screen, (128,0,255) , adjxy(x,y), adjxy(x1,y1) )
+            pygame.draw.aaline(screen, pygame.Color('plum') , adjxy(x,y), adjxy(x1,y1) )
     
 def curve():
     r = 250
@@ -40,7 +40,7 @@ def curve():
         y = r * math.cos(math.radians(th))
         x1= r * math.cos(math.radians(th)*2)
         y1= r * math.cos(math.radians(th)*2)
-        pygame.draw.aaline(screen, (0,255,255) , adjxy(x ,y), adjxy(x1,y1) )
+        pygame.draw.aaline(screen, pygame.Color('yellow2') , adjxy(x ,y), adjxy(x1,y1) )
 
 def curve2():
     r = 200
@@ -49,7 +49,7 @@ def curve2():
         y = r * math.cos(math.radians(th))
         x1= (r+60) * math.cos(math.radians(th))
         y1= (r+60) * math.cos(math.radians(th))
-        pygame.draw.aaline(screen, (255,255,123) , adjxy(x,y), adjxy(x1,y1) )
+        pygame.draw.aaline(screen, pygame.Color('yellow') , adjxy(x,y), adjxy(x1,y1) )
         #screen.set_at(adjxy(x,y), (0,255,255))
         #screen.set_at(adjxy(x1,y1), (255,255,0))        
         
@@ -60,17 +60,17 @@ def sierpinski_chaos():
     for i in xrange(100000):
         randomVertex = vertex[random.randint(0,2)]
         midpoint = (( randomVertex[0] + point[0] )/2, ( randomVertex[1] + point[1] )/2)
-        screen.set_at(adjpt(midpoint), (0,255,255))
+        screen.set_at(adjpt(midpoint), pygame.Color('cyan2'))
         point = midpoint
 
 def sierpinski(level, (vx, vy), l):
     if level==0:
         if (l<=1):
-            screen.set_at((vx,vy), (0,255,255))            
+            screen.set_at((vx,vy), pygame.Color('cyan3'))            
         p1 = (vx, vy)
         p2 = (vx - l/2, vy + l/2)
         p3 = (vx + l/2, vy + l/2)
-        pygame.draw.polygon(screen, (0,255,255), [p1, p2, p3])
+        pygame.draw.polygon(screen, pygame.Color('cyan3'), [p1, p2, p3])
     else:
         sierpinski(level-1 , (vx,vy) , l/2)
         sierpinski(level-1 , (vx - l/4 ,vy + l/4) , l/2)
@@ -79,7 +79,7 @@ def sierpinski(level, (vx, vy), l):
 def FD(l):
     global xpos,ypos,alpha
     newx, newy = xpos + l*math.sin(alpha), ypos + l*math.cos(alpha)
-    pygame.draw.aaline(screen, (0,255,255), (xpos , ypos),(newx, newy))
+    pygame.draw.aaline(screen, pygame.Color('palegreen'), (xpos , ypos),(newx, newy))
     xpos,ypos = newx,newy
 
 def dragon(level, l, i):
@@ -111,7 +111,7 @@ pygame.init()
 screen = pygame.display.set_mode(mode)
 
 basicfont = pygame.font.SysFont(None, 48)
-text = basicfont.render('Press number keys 1-8', True, (255, 0, 0), (0, 0, 0))
+text = basicfont.render('Press number keys 1-8', True, pygame.Color('red'), pygame.Color('black'))
 textrect = text.get_rect()
 textrect.centerx = screen.get_rect().centerx
 textrect.centery = screen.get_rect().centery
