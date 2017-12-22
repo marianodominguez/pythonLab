@@ -60,7 +60,7 @@ def sierpinski_chaos():
     for i in xrange(100000):
         randomVertex = vertex[random.randint(0,2)]
         midpoint = (( randomVertex[0] + point[0] )/2, ( randomVertex[1] + point[1] )/2)
-        screen.set_at(adjpt(midpoint), pygame.Color('cyan2'))
+        screen.set_at(adjpt(midpoint), pygame.Color('papayawhip'))
         point = midpoint
 
 def sierpinski(level, (vx, vy), l):
@@ -127,7 +127,7 @@ while 1:
     if event.type == QUIT:
         sys.exit()
     elif event.type == KEYDOWN:
-      screen.fill((0,0,0))
+      screen.fill(pygame.Color('black'))
       if event.key == pygame.K_1:
           cone()
       if event.key == pygame.K_2:
