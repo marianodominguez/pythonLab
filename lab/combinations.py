@@ -12,7 +12,7 @@ def moveDisks(initial, final):
     index = 0
     
     while(current != final):
-        print current;
+        print(current)
         previous = current[:]
         if(current[index] != final[index]):
             moveDigit(current, final, index)
@@ -25,6 +25,6 @@ def moveDisks(initial, final):
                 index = index +1
             else:
                 index=0
-    print current;
+    print(current)
         
 moveDisks([1,5,1,7],[9,9,5,9])    

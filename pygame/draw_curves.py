@@ -7,8 +7,8 @@ import random
 from pygame.locals import *
 
 
-if not pygame.font: print 'Warning, fonts disabled'
-if not pygame.mixer: print 'Warning, sound disabled'
+if not pygame.font: print('Warning, fonts disabled')
+if not pygame.mixer: print('Warning, sound disabled')
 
 sqrt_2 = math.sqrt(2)
 

@@ -123,7 +123,7 @@ def framerate():
     if t - t0 >= 5.0:
         seconds = t - t0
         fps = frames/seconds
-        print "%.0f frames in %3.1f seconds = %6.3f FPS" % (frames,seconds,fps)
+        print(f"{frames} frames in {seconds} seconds = {fps} FPS")
         t0 = t
         frames = 0
 
