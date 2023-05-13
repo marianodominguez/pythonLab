@@ -49,7 +49,7 @@ def triangleFace():
     glEnd()
 
 def draw():
-    print angle,pov
+    print(angle,pov)
 
     glClear(GL_COLOR_BUFFER_BIT)
     glColor3f(1.0, 1.0, 1.0)
