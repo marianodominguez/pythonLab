@@ -1,4 +1,4 @@
-from labs.DisplayMaze import Maze
+from DisplayMaze import Maze
 
 map = ['*S**********',
        '* *    * * *',
