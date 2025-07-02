@@ -6,7 +6,30 @@ Created on Apr 17, 2011
 
 import pygame
 import sys
+import random
 from pygame.locals import *
+
+# Function to read a maze from maze.txt file
+def generate_maze(filename='maze.txt'):
+    """
+    Read maze from a text file
+    """
+    maze = []
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                # Remove newline character and add to maze
+                maze.append(line.rstrip('\n'))
+    except FileNotFoundError:
+        print(f"Error: {filename} not found")
+        return []
+    except Exception as e:
+        print(f"Error reading {filename}: {e}")
+        return []
+    return maze
+
+# Default maze from file
+MAZE_100x100 = generate_maze()
 
 class Maze(object):
     '''
@@ -55,27 +78,85 @@ class Maze(object):
     def setMaze(self,mazeString = [' S ', '   ', ' E ']):
         for row in mazeString:
             self.maze.append(row)
-        self.MAZE_W = len(mazeString[0])
-        self.MAZE_H = len(mazeString)
+        self.MAZE_W = len(mazeString)
+        self.MAZE_H = len(mazeString[0])
         self.hscale = (self.width) / self.MAZE_W
         self.vscale = (self.height) / self.MAZE_H
         #print self.maze
 
-    def move(self,dir):        
-        if dir=='U':
-            if self.myY-1 >= 0 and self.maze[self.myX][self.myY-1] == ' ' :
-                self.myY -= 1
-        if dir=='D':
-            if self.myY+1 <= self.MAZE_H and self.maze[self.myX][self.myY+1] == ' ':
-                self.myY += 1
-        if dir=='L':
-            if self.myX-1 >= 0 and self.maze[self.myX-1][self.myY] == ' ' :
-                self.myX -= 1
-        if dir=='R':
-            if self.myX+1 <= self.MAZE_W and self.maze[self.myX+1][self.myY] == ' ':
-                self.myX += 1
+    def is_valid_move(self, dx, dy):
+        """
+        Check if a move is valid (within bounds and target cell is a space or exit)
+        
+        Args:
+            dx: Change in x-coordinate
+            dy: Change in y-coordinate
+            
+        Returns:
+            bool: True if the move is valid, False otherwise
+        """
+        new_x = self.myX + dx
+        new_y = self.myY + dy
+        
+        # Check if the new position is within bounds
+        if new_x < 0 or new_x >= self.MAZE_W or new_y < 0 or new_y >= self.MAZE_H:
+            return False
+            
+        # Check if the new position is a space or exit
+        return self.maze[new_x][new_y] == ' ' or self.maze[new_x][new_y] == 'E'
+    
+    def perform_move(self, dx, dy):
+        """
+        Perform a move in the specified direction
+        
+        Args:
+            dx: Change in x-coordinate
+            dy: Change in y-coordinate
+            
+        Returns:
+            bool: True if the exit is reached, False otherwise
+        """
+        self.myX += dx
+        self.myY += dy
+        
+        # Check if the exit is reached
+        return self.maze[self.myX][self.myY] == 'E'
+    
+    def move(self, dir):
+        """
+        Move the player in the specified direction
+        
+        Args:
+            dir: Direction to move ('U', 'D', 'L', 'R')
+            
+        Returns:
+            bool: True if the exit is reached, False otherwise
+        """
+        # Define direction vectors (dx, dy) for each direction
+        directions = {
+            'U': (0, -1),
+            'D': (0, 1),
+            'L': (-1, 0),
+            'R': (1, 0)
+        }
+        
+        # Get the direction vector
+        if dir not in directions:
+            return False
+            
+        dx, dy = directions[dir]
+        
+        # Check if the move is valid
+        if self.is_valid_move(dx, dy):
+            # Perform the move and return if exit is reached
+            return self.perform_move(dx, dy)
+            
+        return False
 
     def game(self):
+        font = pygame.font.Font(None, 36)
+        exit_reached = False
+        
         while True:
             rect = pygame.Rect(self.myX*self.hscale,self.myY*self.vscale,self.hscale,self.vscale)
             pygame.draw.rect(self.screen, (0,0,0), rect)
@@ -84,16 +165,22 @@ class Maze(object):
                 if event.type == QUIT:
                     sys.exit()
                 if event.type == KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        self.move("U")
-                    if event.key == pygame.K_DOWN:
-                        self.move("D")
-                    if event.key == pygame.K_LEFT:
-                        self.move("L")
-                    if event.key == pygame.K_RIGHT:
-                        self.move("R")
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
+                        exit_reached = self.move("U")
+                    if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                        exit_reached = self.move("D")
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                        exit_reached = self.move("L")
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                        exit_reached = self.move("R")
+                    # Add WASD as alternative movement keys
+                    
+                    # Check if exit was reached
+                    if exit_reached:
+                        text = font.render("Congratulations! Exit reached!", True, (255, 255, 0))
+                        text_rect = text.get_rect(center=(self.width/2, self.height/2))
+                        self.screen.blit(text, text_rect)
                 
                 rect = pygame.Rect(self.myX*self.hscale,self.myY*self.vscale,self.hscale,self.vscale)
                 pygame.draw.rect(self.screen, (255,255,255), rect)
                 pygame.display.update()
-                 

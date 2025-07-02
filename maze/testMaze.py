@@ -1,19 +1,10 @@
-from DisplayMaze import Maze
+from DisplayMaze import Maze, generate_maze
 
-map = ['*S**********',
-       '* *    * * *',
-       '* * * **   *',
-       '*   *  * * *',
-       '** *** * * *',
-       '*        * *',
-       '* * ****** *',
-       '* * * *    *',
-       '***** * ****',
-       '*          *',
-       '**********E*',
-       ]
+# Read maze from file
+maze_map = generate_maze()
 
+# Create a maze instance, set the maze, display it, and start the game
 m = Maze()
-m.setMaze(map)
+m.setMaze(maze_map)
 m.display()
 m.game()
