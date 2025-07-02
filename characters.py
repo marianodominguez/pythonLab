@@ -30,6 +30,6 @@ def findFirstRepeating(s):
     return ''
             
 s= 'test of string with repeating characters of w'
-print countChars(s)
-print 'first non repeating', findFirstNonRepeating(s)
-print 'first repeating', findFirstRepeating(s)
+print(countChars(s))
+print('first non repeating', findFirstNonRepeating(s))
+print('first repeating', findFirstRepeating(s))

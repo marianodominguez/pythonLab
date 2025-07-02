@@ -7,12 +7,12 @@ Created on Feb 5, 2011
 class Hashtable:
     def __init__(self):            
         self.currentSize = 100
-        self.storage = [None for x in xrange(self.currentSize)]
+        self.storage = [None for x in range(self.currentSize)]
     def put(self, x):
         index = (self._hash(x)) % self.currentSize
         self.storage[index] = x
     def _hash(self, x):
-        result = 0;
+        result = 0
         for i in x:
             result += ord(i) * 31
         return result

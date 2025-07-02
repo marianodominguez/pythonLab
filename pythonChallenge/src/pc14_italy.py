@@ -11,21 +11,21 @@ i = 0
 #spiral
 
 while t<100:
-    #print "turn",t
+    #print("turn",t)
     y=t
-    for x in xrange(t, w-t):
+    for x in range(t, w-t):
         out.putpixel((x,y) , data[i,0])
         i+=1
     x=w-t-1
-    for y in xrange(t+1, w-t):
+    for y in range(t+1, w-t):
         out.putpixel((x,y), data[i,0])
         i+=1
     y=w-t
-    for x in xrange(w-t-1 , t, -1):
+    for x in range(w-t-1 , t, -1):
         out.putpixel((x,y), data[i,0])
         i+=1
     x=t+1
-    for y in xrange(w-t-1, t+1, -1):
+    for y in range(w-t-1, t+1, -1):
         out.putpixel((x,y), data[i,0])    
         i+=1
     t+=1

@@ -56,11 +56,11 @@ def readGraph(f):
     num_edges = int(f.readline())
     edgesRead = 0
     adjList = {}
-    for x in xrange(1, num_vertex+1): adjList[x] = [] 
+    for x in range(1, num_vertex+1): adjList[x] = [] 
     morelines = True
     while morelines == True:
         vertxList = f.readline().split(' ')
-        for i in xrange(0, len(vertxList)-1 ,2):
+        for i in range(0, len(vertxList)-1 ,2):
             fromVertx = int(vertxList[i])
             toVertx = int(vertxList[i+1])
             addEdge(adjList, fromVertx, toVertx)
@@ -74,18 +74,17 @@ g = ['dummy']
 while g != []: 
     g = readGraph(f);
     if g != []: graphs.append(g)
-print graphs;
+print(graphs)
 
-i =0;
+i = 0
 for graph in graphs:
     if not isConnected(graph): 
-        print "Graph", i, "is not connected, not a caterpillar"
+        print("Graph", i, "is not connected, not a caterpillar")
     elif not isAcyclic(graph):
-        print "Graph", i, "has cycles, not a caterpillar"
+        print("Graph", i, "has cycles, not a caterpillar")
     elif not isCaterpillar(graph):
-        print "Graph", i, "is not a caterpillar"
+        print("Graph", i, "is not a caterpillar")
     else:
-        print "Graph", i, "is a caterpillar !"
-    print findAllPaths(graph,2,2)   
-    i = i+1;
- 
+        print("Graph", i, "is a caterpillar !")
+    print(findAllPaths(graph,2,2))   
+    i = i+1

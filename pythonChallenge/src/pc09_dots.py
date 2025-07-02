@@ -8,7 +8,7 @@ def plot(pixels,color):
     draw.line(pixels, fill=color, width=3)
 
 def plotpoint(pixels, color):
-    for i in xrange(0,len(pixels)-1, 2):
+    for i in range(0,len(pixels)-1, 2):
         im.putpixel( (int(pixels[i]), int(pixels[i+1])), color )
 
 first = [146,399,163,403,170,393,169,391,166,386,170,381,170,371,170,355,169,346,167,335,170,329,170,320,170,

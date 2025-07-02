@@ -24,10 +24,10 @@ while y<h:
 
 #print offset
 
-for y in xrange(h):
+for y in range(h):
     for x in range(w):
         nx = x + (w - offset[y])
-        #print nx
+        #print(nx)
         result.putpixel((nx,y), data[x,y])
 
 result.save('straight.gif')

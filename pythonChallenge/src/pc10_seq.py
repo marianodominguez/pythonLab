@@ -4,7 +4,7 @@
 
 a =['1', '11']
 
-for i in xrange(2,31):
+for i in range(2,31):
     seq = a[i-1]
     element = seq[0]
     count=0
@@ -21,8 +21,8 @@ for i in xrange(2,31):
     new += str(count) + element
     a.append(new)
 
-print a[0:15]
+print(a[0:15])
 #print a[30]
 
-print len(a[30])
+print(len(a[30]))
 

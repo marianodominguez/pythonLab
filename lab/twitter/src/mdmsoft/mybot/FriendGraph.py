@@ -1,4 +1,16 @@
+'''
+Created on Mar 10, 2011
+
+@author: mariano
+'''
+
 import twitter
+
+def post(api, user, msg):
+    if not user: return
+    update = "@" + user + ' ' + msg
+    print(update)
+    api.PostUpdate(update)
 
 api = twitter.Api(consumer_key='T5Fbc00BN8njOfwm69kQbg', 
                   consumer_secret='7MszETCcJFiEssyf5INrLXb6qHqW9mI1MomSnZvs',
@@ -6,10 +18,16 @@ api = twitter.Api(consumer_key='T5Fbc00BN8njOfwm69kQbg',
                   access_token_secret='IKk7n3rSfG0JUYJZNe4VFt4dazSQIYdNhfzUmYpWU')
 
 user = api.VerifyCredentials()
-print user
 
-#searchResult = api.GetSearch(term = "",lang="ES", geocode=("19.432924","-99.128265","50km"))
-searchResult = api.GetSearch(term = "aristegui", per_page=50, geocode=("19.432924","-99.128265","50km"))
+me = api.GetUser('i_tichy')
 
-for result in searchResult:
-    print result.id, result.text, result.location, result.user.screen_name 
+print(me)
+
+friends = api.GetFriends('i_tichy')
+
+for f in friends:
+    print(f.GetId(), f.GetName(), f.GetScreenName())
+
+
+
+
