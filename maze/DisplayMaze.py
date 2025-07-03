@@ -28,8 +28,6 @@ def generate_maze(filename='maze.txt'):
         return []
     return maze
 
-# Default maze from file
-MAZE_100x100 = generate_maze()
 
 class Maze(object):
     '''
@@ -39,7 +37,7 @@ class Maze(object):
              E\n
     '''
 
-    mode = width,height = 800,600
+    mode = width,height = 1600,1200
     maze = []
     myX, myY = (1,2)
     screen = None
@@ -75,7 +73,7 @@ class Maze(object):
                     pygame.draw.rect(self.screen, self.END_COLOR, rect)
             
 
-    def setMaze(self,mazeString = [' S ', '   ', ' E ']):
+    def setMaze(self,mazeString = ['*S*', '* *', '*E*']):
         for row in mazeString:
             self.maze.append(row)
         self.MAZE_W = len(mazeString)
