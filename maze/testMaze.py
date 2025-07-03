@@ -7,4 +7,10 @@ maze_map = generate_maze()
 m = Maze()
 m.setMaze(maze_map)
 m.display()
-m.game()
+
+path= m.solve()
+#print("Path found:", path)
+
+#m.game()
+
+m.display_path(path)

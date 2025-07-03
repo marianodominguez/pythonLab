@@ -8,6 +8,7 @@ import pygame
 import sys
 import random
 from pygame.locals import *
+from time import sleep
 
 # Function to read a maze from maze.txt file
 def generate_maze(filename='maze.txt'):
@@ -75,6 +76,9 @@ class Maze(object):
 
     def setMaze(self,mazeString = ['*S*', '* *', '*E*']):
         for row in mazeString:
+            if 'S' in row:
+                self.myX = mazeString.index(row)
+                self.myY = row.index('S')
             self.maze.append(row)
         self.MAZE_W = len(mazeString)
         self.MAZE_H = len(mazeString[0])
@@ -182,3 +186,77 @@ class Maze(object):
                 rect = pygame.Rect(self.myX*self.hscale,self.myY*self.vscale,self.hscale,self.vscale)
                 pygame.draw.rect(self.screen, (255,255,255), rect)
                 pygame.display.update()
+
+    def display_path(self, path):
+        """
+        Display the path on the maze
+        Args:
+        """
+        for x, y in path:
+            rect = pygame.Rect(x * self.hscale+self.hscale/4, y * self.vscale+self.vscale/4, self.hscale/2, self.vscale/2)
+            pygame.draw.rect(self.screen, (0, 255, 255), rect)
+            pygame.display.update()
+
+        while True:
+            for event in pygame.event.get():
+                    if event.type == QUIT:
+                        sys.exit()
+            sleep(0.1)  # Slow down the display for visibility
+
+    def number_of_new_neighbors(self, x, y, visited):
+        """
+        Returns the number of unvisited neighbors that are open paths or the exit.
+        """
+        count = 0
+        neighbors = [
+            (0, 1), (1, 0),
+            (0, -1), (-1, 0)
+        ]
+        for dx, dy in neighbors:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < self.MAZE_W and 0 <= ny < self.MAZE_H:
+                if (nx, ny) not in visited and (self.maze[nx][ny] == ' ' or self.maze[nx][ny] == 'E'):
+                    count += 1
+        return count
+
+    def solve(self):
+        """
+        Solve the maze using a simple algorithm (e.g., DFS or BFS)
+        This is a placeholder for future implementation.
+        """
+        stack = [(self.myX, self.myY)]
+        path = []
+        visited = set()
+        while stack:
+            x, y = stack.pop()
+            
+            if (x, y) in visited:
+                continue
+            visited.add((x, y))
+            
+            if self.number_of_new_neighbors(x, y, visited) != 0:
+                path.append((x, y))
+            else:
+                if path:
+                    path.pop()
+
+            # Check if exit is reached
+            if self.maze[x][y] == 'E':
+                print("Exit found at:", (x, y))
+                return path
+            
+            # Explore neighbors
+            n= [
+                (0, 1), (1, 0),
+                (0, -1), (-1, 0)
+               ]
+            
+            random.shuffle(n)
+            for dx, dy in n:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < self.MAZE_W and 0 <= new_y < self.MAZE_H and \
+                   (new_x, new_y) not in visited and \
+                   (self.maze[new_x][new_y] == ' ' or self.maze[new_x][new_y] == 'E'):
+                    stack.append((new_x, new_y))
+        return []
