@@ -9,6 +9,7 @@ import sys
 import random
 from pygame.locals import *
 from time import sleep
+from collections import deque
 
 # Function to read a maze from maze.txt file
 def generate_maze(filename='maze.txt'):
@@ -218,6 +219,27 @@ class Maze(object):
                 if (nx, ny) not in visited and (self.maze[nx][ny] == ' ' or self.maze[nx][ny] == 'E'):
                     count += 1
         return count
+    
+    def backtrack_path(self, visited, exit_point, parent):
+        """
+        Backtrack to find the path from the exit point to the start point.
+        
+        Args:
+            visited: Set of visited coordinates
+            exit_point: The coordinates of the exit point
+            
+        Returns:
+            List of coordinates representing the path from start to exit
+        """
+        path = []
+        current = exit_point
+        
+        while current in visited:
+            path.append(current)
+            print("Current position:", current)
+            # Find the parent of the current node
+            current = parent.get(f"{current[0], current[1]}", None)
+        return path[::-1]  # Reverse the path to get it from start to exit
 
     def solve(self):
         """
@@ -227,23 +249,18 @@ class Maze(object):
         stack = [(self.myX, self.myY)]
         path = []
         visited = set()
+        parent =  {}
         while stack:
             x, y = stack.pop()
             
             if (x, y) in visited:
                 continue
             visited.add((x, y))
-            
-            if self.number_of_new_neighbors(x, y, visited) != 0:
-                path.append((x, y))
-            else:
-                if path:
-                    path.pop()
 
             # Check if exit is reached
             if self.maze[x][y] == 'E':
                 print("Exit found at:", (x, y))
-                return path
+                return self.backtrack_path(visited, (x, y), parent)
             
             # Explore neighbors
             n= [
@@ -259,4 +276,37 @@ class Maze(object):
                    (new_x, new_y) not in visited and \
                    (self.maze[new_x][new_y] == ' ' or self.maze[new_x][new_y] == 'E'):
                     stack.append((new_x, new_y))
+                    parent[f"{new_x,new_y}" ] = (x,y)
         return []
+
+    def solve_bfs(self):
+        queue = deque([(self.myX, self.myY)])
+        parent =  {}
+        visited = set()
+        while queue:
+            x, y = queue.popleft()
+            
+            if (x, y) in visited:
+                continue
+            visited.add((x, y))
+
+            # Check if exit is reached
+            if self.maze[x][y] == 'E':
+                print("Exit found at:", (x, y))
+                return self.backtrack_path(visited, (x, y), parent)
+            
+            # Explore neighbors
+            n= [
+                (0, 1), (1, 0),
+                (0, -1), (-1, 0)
+               ]
+            
+            random.shuffle(n)
+            for dx, dy in n:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < self.MAZE_W and 0 <= new_y < self.MAZE_H and \
+                   (new_x, new_y) not in visited and \
+                   (self.maze[new_x][new_y] == ' ' or self.maze[new_x][new_y] == 'E'):
+                    queue.append((new_x, new_y))
+                    parent[f"{new_x,new_y}" ] = (x,y)
