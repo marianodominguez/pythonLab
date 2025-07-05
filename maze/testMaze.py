@@ -8,6 +8,7 @@ maze_map = generate_maze()
 m = Maze()
 m.setMaze(maze_map)
 m.display()
+sleep(1)
 
 path= m.solve_dfs()
 m.display_path(path, 'white')
