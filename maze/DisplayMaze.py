@@ -237,10 +237,6 @@ class Maze(object):
         return path[::-1]  # Reverse the path to get it from start to exit
 
     def solve(self):
-        """
-        Solve the maze using a simple algorithm (e.g., DFS or BFS)
-        This is a placeholder for future implementation.
-        """
         stack = [(self.myX, self.myY)]
         path = []
         visited = set()
@@ -345,6 +341,18 @@ class Maze(object):
                    (self.maze[new_x][new_y] == ' ' or self.maze[new_x][new_y] == 'E'):
                     queue.append((new_x, new_y))
                     parent[f"{new_x,new_y}" ] = (x,y)
+
+    def wait_for_exit(self):
+        """
+        Wait for the user to close the window
+        """
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    sys.exit()
+                if event.type == KEYDOWN and event.key == K_ESCAPE:
+                    sys.exit()
+            sleep(0.1)
 
 if __name__ == '__main__':
     maze_map = generate_maze("maze_small.txt")

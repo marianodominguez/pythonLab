@@ -10,9 +10,9 @@ m.setMaze(maze_map)
 m.display()
 
 path= m.solve_dfs()
-m.display_path(path, 'blue')
+m.display_path(path, 'white')
 
 m.display()
 path= m.solve()
 m.display_path(path)
-sleep(5)
+m.wait_for_exit()
