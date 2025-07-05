@@ -1,3 +1,4 @@
+from time import sleep
 from DisplayMaze import Maze, generate_maze
 
 # Read maze from file
@@ -8,9 +9,10 @@ m = Maze()
 m.setMaze(maze_map)
 m.display()
 
+path= m.solve_dfs()
+m.display_path(path, 'blue')
+
+m.display()
 path= m.solve()
-#print("Path found:", path)
-
-#m.game()
-
 m.display_path(path)
+sleep(2)

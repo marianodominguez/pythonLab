@@ -73,7 +73,7 @@ class Maze(object):
                     pygame.draw.rect(self.screen, self.WALL_COLOR, rect)
                 if cell == 'E':
                     pygame.draw.rect(self.screen, self.END_COLOR, rect)
-            
+        pygame.display.update()
 
     def setMaze(self,mazeString = ['*S*', '* *', '*E*']):
         for row in mazeString:
@@ -188,21 +188,16 @@ class Maze(object):
                 pygame.draw.rect(self.screen, (255,255,255), rect)
                 pygame.display.update()
 
-    def display_path(self, path):
+    def display_path(self, path, color='cyan'):
         """
         Display the path on the maze
         Args:
         """
         for x, y in path:
             rect = pygame.Rect(x * self.hscale+self.hscale/4, y * self.vscale+self.vscale/4, self.hscale/2, self.vscale/2)
-            pygame.draw.rect(self.screen, (0, 255, 255), rect)
+            pygame.draw.rect(self.screen, Color(color), rect)
             pygame.display.update()
 
-        while True:
-            for event in pygame.event.get():
-                    if event.type == QUIT:
-                        sys.exit()
-            sleep(0.1)  # Slow down the display for visibility
 
     def number_of_new_neighbors(self, x, y, visited):
         """
@@ -279,6 +274,46 @@ class Maze(object):
                     parent[f"{new_x,new_y}" ] = (x,y)
         return []
 
+    def solve_dfs(self):
+        """
+        Solve the maze using a simple algorithm (e.g., DFS or BFS)
+        This is a placeholder for future implementation.
+        """
+        stack = [(self.myX, self.myY)]
+        path = []
+        visited = set()
+        parent =  {}
+        while stack:
+            x, y = stack.pop()
+            
+            if (x, y) in visited:
+                continue
+            visited.add((x, y))
+            path.append((x, y))
+
+            # Check if exit is reached
+            if self.maze[x][y] == 'E':
+                print("Exit found at:", (x, y))
+                return path
+            
+            # Explore neighbors
+            n= [
+                (0, 1), (1, 0),
+                (0, -1), (-1, 0)
+               ]
+            
+            random.shuffle(n)
+            for dx, dy in n:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < self.MAZE_W and 0 <= new_y < self.MAZE_H and \
+                   (new_x, new_y) not in visited and \
+                   (self.maze[new_x][new_y] == ' ' or self.maze[new_x][new_y] == 'E'):
+                    stack.append((new_x, new_y))
+                    parent[f"{new_x,new_y}" ] = (x,y)
+        return []
+
+
     def solve_bfs(self):
         queue = deque([(self.myX, self.myY)])
         parent =  {}
@@ -310,3 +345,18 @@ class Maze(object):
                    (self.maze[new_x][new_y] == ' ' or self.maze[new_x][new_y] == 'E'):
                     queue.append((new_x, new_y))
                     parent[f"{new_x,new_y}" ] = (x,y)
+
+if __name__ == '__main__':
+    maze_map = generate_maze("maze_small.txt")
+
+    # Create a maze instance, set the maze, display it, and start the game
+    m = Maze()
+    m.setMaze(maze_map)
+    m.display()
+
+    #path= m.solve()
+    #print("Path found:", path)
+
+    m.game()
+
+    m.display_path(path)                    
