@@ -98,10 +98,12 @@ Solutions to Python programming challenges:
 - Modern web browser with HTML5 Canvas support
 
 ### Running the Maze Visualizer
-1. Navigate to the `maze_server` directory
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run the Flask server: `python app.py`
-4. Open browser to `http://localhost:5000`
+
+ 1. Navigate to the `maze_server` directory
+ 1. Install dependencies: `pip install -r requirements.txt`
+ 1. set path to the root folder `PYTHONPATH=/path/to/pythonLab:$PYTHONPATH`
+ 1. Run the Flask server: `python app.py`
+ 1. Open browser to `http://localhost:5000`
 
 ### Browser Compatibility
 - Requires modern browser with HTML5 Canvas support
