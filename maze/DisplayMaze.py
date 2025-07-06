@@ -55,7 +55,6 @@ class Maze(object):
             self.screen = pygame.display.set_mode(self.mode)
             self.hscale = (self.width) / self.MAZE_W
             self.vscale = (self.height) / self.MAZE_H
-            self.maze = [];
             self.myX, self.myY = (1,1)
         
 
