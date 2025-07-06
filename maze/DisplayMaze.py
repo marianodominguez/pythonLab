@@ -49,20 +49,18 @@ class Maze(object):
     START_COLOR = (0, 255, 0)
     END_COLOR = (255, 0, 0)
 
-    def __init__(self,params=[]):
-        '''
-        Constructor
-        '''
-        
-        pygame.init()
-        self.screen = pygame.display.set_mode(self.mode)
-        self.hscale = (self.width) / self.MAZE_W
-        self.vscale = (self.height) / self.MAZE_H
-        self.maze = [];
-        self.myX, self.myY = (1,1)
+    def init_graph(self,params=[]):
+        if not self.screen :
+            pygame.init()
+            self.screen = pygame.display.set_mode(self.mode)
+            self.hscale = (self.width) / self.MAZE_W
+            self.vscale = (self.height) / self.MAZE_H
+            self.maze = [];
+            self.myX, self.myY = (1,1)
         
 
     def display(self):
+        self.init_graph(self)
         self.screen.fill((0,0,0))
         for x,row in enumerate(self.maze):
             for y,cell in enumerate(row):
@@ -197,23 +195,6 @@ class Maze(object):
             rect = pygame.Rect(x * self.hscale+self.hscale/4, y * self.vscale+self.vscale/4, self.hscale/2, self.vscale/2)
             pygame.draw.rect(self.screen, Color(color), rect)
             pygame.display.update()
-
-
-    def number_of_new_neighbors(self, x, y, visited):
-        """
-        Returns the number of unvisited neighbors that are open paths or the exit.
-        """
-        count = 0
-        neighbors = [
-            (0, 1), (1, 0),
-            (0, -1), (-1, 0)
-        ]
-        for dx, dy in neighbors:
-            nx, ny = x + dx, y + dy
-            if 0 <= nx < self.MAZE_W and 0 <= ny < self.MAZE_H:
-                if (nx, ny) not in visited and (self.maze[nx][ny] == ' ' or self.maze[nx][ny] == 'E'):
-                    count += 1
-        return count
     
     def backtrack_path(self, visited, exit_point, parent):
         """

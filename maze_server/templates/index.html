@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Visualizer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        #canvas {
+            border: 2px solid #333;
+            background-color: white;
+            margin: 5px auto;
+            display: block;
+            max-width: 100%;
+            max-height: 70vh;
+            width: auto;
+            height: auto;
+        }
+        
+        .controls {
+            margin: 20px 0;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 20px;
+        }
+        
+        .status.loading {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maze Visualizer</h1>
+        
+        <div class="controls">
+            <button onclick="loadMaze()">Load Maze</button>
+            <button onclick="solveMaze()">Solve Maze</button>
+            <button onclick="solveDFS()">Solve DFS</button>
+            <button onclick="clearCanvas()">Clear Canvas</button>
+        </div>
+        
+        <div id="status" class="status"></div>
+        
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script src="{{ url_for('static', filename='maze_client.js') }}"></script>
+</body>
+</html>
