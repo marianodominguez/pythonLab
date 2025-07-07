@@ -1,19 +1,23 @@
 from time import sleep
-from DisplayMaze import Maze, generate_maze
+from Maze import Maze
+from DisplayMazeApp import MazeApp
 
 # Read maze from file
-maze_map = generate_maze()
 
 # Create a maze instance, set the maze, display it, and start the game
 m = Maze()
+app = MazeApp()
+maze_map = m.generate_maze()
 m.setMaze(maze_map)
-m.display()
+app.setMaze(maze_map)
+
+app.display()
 sleep(1)
 
 path= m.solve_dfs()
-m.display_path(path, 'white')
+app.display_path(path, 'white')
 
-m.display()
+app.display()
 path= m.solve()
-m.display_path(path)
-m.wait_for_exit()
+app.display_path(path)
+app.wait_for_exit()

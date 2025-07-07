@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-from maze.DisplayMaze import Maze, generate_maze
+from maze.Maze import Maze
 import os
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ def handle():
     if maze_map is None:
         # Generate a new maze if it hasn't been generated yet
         os.chdir("../maze")
-        maze_map = generate_maze()
+        maze_map = m.generate_maze()
         m.setMaze(maze_map)
     return jsonify({'map': maze_map})
 
@@ -21,7 +21,7 @@ def solve():
     global maze_map,m
     if maze_map is None:
         os.chdir("../maze")
-        maze_map = generate_maze()
+        maze_map = m.generate_maze()
     m.setMaze(maze_map)
     path= m.solve()
     return jsonify({'path': path})
@@ -31,7 +31,7 @@ def solve_dfs():
     global maze_map,m
     if maze_map is None:
         os.chdir("../maze")
-        maze_map = generate_maze()
+        maze_map = m.generate_maze()
     m.setMaze(maze_map)
     path= m.solve_dfs()
     return jsonify({'path': path})

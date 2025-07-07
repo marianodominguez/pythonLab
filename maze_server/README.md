@@ -14,19 +14,40 @@ A web-based maze visualization client that fetches maze data from a Flask API an
 
 ```
 maze_server/
+├── maze/
+│   ├── Maze.py           # Core maze logic: generation, solving, and data representation
+│   ├── algorithms.py     # (Example) Additional maze algorithms and utilities
+│   └── ...               # Other logic modules (no display/UI code)
 ├── templates/
-│   └── index.html          # Main HTML template
+│   └── index.html        # Main HTML template
 ├── static/
-│   └── maze_client.js      # JavaScript client functionality
-└── README.md              # This file
+│   └── maze_client.js    # JavaScript client for visualization and interaction
+└── README.md             # This file
 ```
+
+## Maze Logic (`maze/` directory)
+
+All maze generation and solving logic is now separated into the `maze/` directory. This ensures a clear separation between backend logic and frontend display.
+
+- **Maze.py**  
+  Contains the `Maze` class, which provides:
+  - Maze generation (e.g., random, recursive backtracking)
+  - Maze solving (e.g., shortest path, DFS)
+  - Maze data representation (as a 2D list or similar)
+  - Methods for setting and retrieving maze state
+
+- **algorithms.py** (if present)  
+  Additional algorithms or utilities for maze manipulation, which can be imported and used by `Maze.py`.
+
+- **No UI or Display Code**  
+  All code in `maze/` is focused on logic and data, making it reusable and easy to test.
 
 ## API Endpoints
 
-The client communicates with the following Flask API endpoints:
+The Flask app exposes the following endpoints for the client:
 
 - `GET /api/maze` - Retrieves the current maze data
-- `GET /api/solve_maze` - Returns the solution path using standard algorithm
+- `GET /api/solve_maze` - Returns the solution path using the standard algorithm
 - `GET /api/solve_dfs` - Returns the solution path using Depth-First Search
 
 ## Usage
@@ -137,4 +158,3 @@ Potential improvements could include:
 - Maze editing capabilities
 - Export functionality for maze images
 - Touch/mobile gesture support
-- Customizable color schemes

@@ -65,17 +65,21 @@ Experimental projects and exercises:
 - **twitter/** - Social media analysis tools and bot implementations
 
 ### 📁 maze/
-Maze generation and solving algorithms:
-- **DisplayMaze.py** - Maze visualization and display utilities
-- **testMaze.py** - Maze testing and validation
-- Various maze data files (txt format)
+Maze generation and solving logic, fully separated from display/UI code:
+- **Maze.py** - Core maze logic: generation, solving (BFS, DFS), and data representation. Provides the `Maze` class with methods for creating, solving, and managing maze state.
+- **algorithms.py** *(optional)* - Additional maze algorithms or utilities that can be imported by `Maze.py` for advanced maze generation or solving strategies.
+- **testMaze.py** - Unit tests and validation for maze logic.
+- **DisplayMaze.py** - (Legacy/optional) Visualization utilities for command-line or non-web display.
+- Various maze data files (txt format) - Example mazes for testing and experimentation.
+
+> **Note:** All logic in `maze/` is UI-agnostic and can be reused or tested independently of any display code.
 
 ### 📁 maze_server/
 **Web-based maze visualizer** (Flask server + JavaScript client):
-- **app.py** - Flask API server
-- **templates/index.html** - Web interface
-- **static/maze_client.js** - Interactive canvas client
-- **requirements.txt** - Python dependencies
+- **app.py** - Flask API server, serving maze data and solutions via REST endpoints.
+- **templates/index.html** - Web interface for user interaction.
+- **static/maze_client.js** - Interactive canvas client using modern JavaScript (ES6+).
+- **requirements.txt** - Python dependencies for the server.
 
 ### 📁 pythonChallenge/
 Solutions to Python programming challenges:
@@ -100,10 +104,12 @@ Solutions to Python programming challenges:
 ### Running the Maze Visualizer
 
  1. Navigate to the `maze_server` directory
- 1. Install dependencies: `pip install -r requirements.txt`
- 1. set path to the root folder `PYTHONPATH=/path/to/pythonLab:$PYTHONPATH`
- 1. Run the Flask server: `python app.py`
- 1. Open browser to `http://localhost:5000`
+ 2. Install dependencies: `pip install -r requirements.txt`
+ 3. Set path to the root folder:  
+    `PYTHONPATH=/path/to/pythonLab:$PYTHONPATH`
+ 4. Run the Flask server:  
+    `python app.py`
+ 5. Open browser to `http://localhost:5000`
 
 ### Browser Compatibility
 - Requires modern browser with HTML5 Canvas support
@@ -113,7 +119,7 @@ Solutions to Python programming challenges:
 ## Development
 
 ### Architecture
-- **Modular Design**: Separate concerns between server API and client visualization
+- **Modular Design**: Clear separation between maze logic (`maze/`), server API (`maze_server/app.py`), and client visualization (`maze_server/static/maze_client.js`)
 - **Async Operations**: Non-blocking API calls with proper error handling
 - **Responsive UI**: Canvas adapts to any screen size while maintaining maze proportions
 - **Clean Code**: Well-documented functions with clear separation of responsibilities

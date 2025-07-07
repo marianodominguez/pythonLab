@@ -4,31 +4,10 @@ Created on Apr 17, 2011
 @author: mariano
 '''
 
-import pygame
 import sys
 import random
-from pygame.locals import *
 from time import sleep
 from collections import deque
-
-# Function to read a maze from maze.txt file
-def generate_maze(filename='maze.txt'):
-    """
-    Read maze from a text file
-    """
-    maze = []
-    try:
-        with open(filename, 'r') as file:
-            for line in file:
-                # Remove newline character and add to maze
-                maze.append(line.rstrip('\n'))
-    except FileNotFoundError:
-        print(f"Error: {filename} not found")
-        return []
-    except Exception as e:
-        print(f"Error reading {filename}: {e}")
-        return []
-    return maze
 
 
 class Maze(object):
@@ -38,39 +17,27 @@ class Maze(object):
      ** ***  *\n
              E\n
     '''
-
-    mode = width,height = 1600,1200
     maze = []
     myX, myY = (1,2)
-    screen = None
-    hscale,vscale=(1.0,1.0)
-    MAZE_W,MAZE_H = (100,100)
-    WALL_COLOR = (100, 30, 100)
-    START_COLOR = (0, 255, 0)
-    END_COLOR = (255, 0, 0)
 
-    def init_graph(self,params=[]):
-        if not self.screen :
-            pygame.init()
-            self.screen = pygame.display.set_mode(self.mode)
-            self.hscale = (self.width) / self.MAZE_W
-            self.vscale = (self.height) / self.MAZE_H
-            self.myX, self.myY = (1,1)
-        
-
-    def display(self):
-        self.init_graph(self)
-        self.screen.fill((0,0,0))
-        for x,row in enumerate(self.maze):
-            for y,cell in enumerate(row):
-                rect = pygame.Rect(x*self.hscale, y*self.vscale, self.hscale, self.vscale)
-                if cell== 'S':
-                    pygame.draw.rect(self.screen, self.START_COLOR, rect)
-                if cell== '*':
-                    pygame.draw.rect(self.screen, self.WALL_COLOR, rect)
-                if cell == 'E':
-                    pygame.draw.rect(self.screen, self.END_COLOR, rect)
-        pygame.display.update()
+    # Function to read a maze from maze.txt file
+    def generate_maze(self,filename='maze.txt'):
+        """
+        Read maze from a text file
+        """
+        maze = []
+        try:
+            with open(filename, 'r') as file:
+                for line in file:
+                    # Remove newline character and add to maze
+                    maze.append(line.rstrip('\n'))
+        except FileNotFoundError:
+            print(f"Error: {filename} not found")
+            return []
+        except Exception as e:
+            print(f"Error reading {filename}: {e}")
+            return []
+        return maze
 
     def setMaze(self,mazeString = ['*S*', '* *', '*E*']):
         for row in mazeString:
@@ -80,8 +47,6 @@ class Maze(object):
             self.maze.append(row)
         self.MAZE_W = len(mazeString)
         self.MAZE_H = len(mazeString[0])
-        self.hscale = (self.width) / self.MAZE_W
-        self.vscale = (self.height) / self.MAZE_H
         #print self.maze
 
     def is_valid_move(self, dx, dy):
@@ -152,48 +117,6 @@ class Maze(object):
             return self.perform_move(dx, dy)
             
         return False
-
-    def game(self):
-        font = pygame.font.Font(None, 36)
-        exit_reached = False
-        
-        while True:
-            rect = pygame.Rect(self.myX*self.hscale,self.myY*self.vscale,self.hscale,self.vscale)
-            pygame.draw.rect(self.screen, (0,0,0), rect)
- 
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit()
-                if event.type == KEYDOWN:
-                    if event.key == pygame.K_UP or event.key == pygame.K_w:
-                        exit_reached = self.move("U")
-                    if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                        exit_reached = self.move("D")
-                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                        exit_reached = self.move("L")
-                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                        exit_reached = self.move("R")
-                    # Add WASD as alternative movement keys
-                    
-                    # Check if exit was reached
-                    if exit_reached:
-                        text = font.render("Congratulations! Exit reached!", True, (255, 255, 0))
-                        text_rect = text.get_rect(center=(self.width/2, self.height/2))
-                        self.screen.blit(text, text_rect)
-                
-                rect = pygame.Rect(self.myX*self.hscale,self.myY*self.vscale,self.hscale,self.vscale)
-                pygame.draw.rect(self.screen, (255,255,255), rect)
-                pygame.display.update()
-
-    def display_path(self, path, color='cyan'):
-        """
-        Display the path on the maze
-        Args:
-        """
-        for x, y in path:
-            rect = pygame.Rect(x * self.hscale+self.hscale/4, y * self.vscale+self.vscale/4, self.hscale/2, self.vscale/2)
-            pygame.draw.rect(self.screen, Color(color), rect)
-            pygame.display.update()
     
     def backtrack_path(self, visited, exit_point, parent):
         """
@@ -322,29 +245,4 @@ class Maze(object):
                     queue.append((new_x, new_y))
                     parent[f"{new_x,new_y}" ] = (x,y)
 
-    def wait_for_exit(self):
-        """
-        Wait for the user to close the window
-        """
-        while True:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit()
-                if event.type == KEYDOWN and event.key == K_ESCAPE:
-                    sys.exit()
-            sleep(0.1)
-
-if __name__ == '__main__':
-    maze_map = generate_maze("maze_small.txt")
-
-    # Create a maze instance, set the maze, display it, and start the game
-    m = Maze()
-    m.setMaze(maze_map)
-    m.display()
-
-    #path= m.solve()
-    #print("Path found:", path)
-
-    m.game()
-
-    m.display_path(path)                    
+                

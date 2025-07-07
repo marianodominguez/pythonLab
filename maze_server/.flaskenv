@@ -1,0 +1,1 @@
+export PYTHONPATH=/home/mariano/pythonLab:$PYTHONPATH
