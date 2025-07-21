@@ -1,3 +1,4 @@
 pyOpenGL
-pygame
-pyglet
+numpy
+glfw
+PyGLM

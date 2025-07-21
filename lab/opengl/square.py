@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import sys
-from OpenGL.GLUT import *
+import glfw
+
 from OpenGL.GL import *
+vp_size_changed = False
 
 def display():
     glClear (GL_COLOR_BUFFER_BIT)
@@ -25,7 +27,10 @@ def display():
 
     glFlush()
 
-def resize(w,h):
+def resize(window, w,h):
+    global vp_size_changed
+    vp_size_changed = True
+
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
@@ -36,17 +41,39 @@ def resize(w,h):
 def setup():
     glClearColor(1.0, 1.0, 1.0, 0.0)
 
-glutInit(sys.argv)
-glutInitContextVersion(4,3)
-glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE)
+if not glfw.init():
+    print("Unable to get window")
+    sys.exit(1)
 
-glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA)
-glutInitWindowSize(400,400)
-glutCreateWindow("oldgl")
-glutDisplayFunc(display)
-glutReshapeFunc(resize)
+glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 2)
+glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
+# Use compatibility profile for immediate mode
+# glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_COMPAT_PROFILE)
+glfw.window_hint(glfw.OPENGL_DEBUG_CONTEXT, GL_TRUE)
+
+window = glfw.create_window(640, 480, "Square", None, None)
+
+if not window:
+    glfw.terminate()
+    sys.exit(1)
+
+# Make the window's context current
+glfw.make_context_current(window)
+glfw.set_window_size_callback(window, resize)
 
 #glewExperimental = GL_TRUE
 #glewInit()
 setup()
-glutMainLoop()
+while not glfw.window_should_close(window):
+    # Render here, e.g. using pyOpenGL
+    display()
+    # Swap front and back buffers
+    glfw.swap_buffers(window)
+
+    # Poll for and process events
+    glfw.poll_events()
+    if vp_size_changed:
+        vp_size_changed = False
+        w, h = glfw.get_framebuffer_size(window)
+        glViewport(0, 0, w, h)
+glfw.terminate()
