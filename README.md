@@ -6,6 +6,16 @@ A collection of Python projects and experiments covering various algorithms, dat
 
 A web-based maze visualization client that fetches maze data from a Flask API and displays it on an HTML5 canvas with interactive solving capabilities.
 
+### Running the Maze Visualizer
+
+ 1. Navigate to the `maze_server` directory
+ 2. Install dependencies: `pip install -r requirements.txt`
+ 3. Set path to the root folder:  
+    `export PYTHONPATH=..:$PYTHONPATH`
+ 4. Run the Flask server:  
+    `python app.py`
+ 5. Open browser to `http://localhost:5000`
+
 ### Features
 
 - **Responsive Design**: Canvas automatically resizes to fit the browser window while maintaining aspect ratio
@@ -100,16 +110,6 @@ Solutions to Python programming challenges:
 - Python 3.7+
 - Flask (for maze_server)
 - Modern web browser with HTML5 Canvas support
-
-### Running the Maze Visualizer
-
- 1. Navigate to the `maze_server` directory
- 2. Install dependencies: `pip install -r requirements.txt`
- 3. Set path to the root folder:  
-    `PYTHONPATH=/path/to/pythonLab:$PYTHONPATH`
- 4. Run the Flask server:  
-    `python app.py`
- 5. Open browser to `http://localhost:5000`
 
 ### Browser Compatibility
 - Requires modern browser with HTML5 Canvas support
