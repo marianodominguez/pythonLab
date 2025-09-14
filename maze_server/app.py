@@ -6,6 +6,14 @@ app = Flask(__name__)
 m = Maze()
 maze_map = None
 
+
+@app.route('/api/newmaze', methods=['GET'])
+def new_maze():
+    global maze_map,m
+    maze_map = m.create_maze()
+    m.setMaze(maze_map)
+    return jsonify({'map': maze_map})
+
 @app.route('/api/maze', methods=['GET'])
 def handle():
     global maze_map,m

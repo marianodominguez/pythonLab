@@ -20,6 +20,25 @@ class Maze(object):
     maze = []
     myX, myY = (1,2)
 
+    #function to creeate a maze 
+    def create_maze(self, width=100, height=100):
+        maze = []
+        maze = [['*' for _ in range(height)] for _ in range(width)]
+        # Randomly place start (S) and end (E) points
+        start_x, start_y = random.randint(0, width- 1), random.randint(0, height- 1)
+        end_x, end_y = random.randint(0, width - 1), random.randint(0, height- 1)
+        while (end_x, end_y) == (start_x, start_y):
+            end_x, end_y = random.randint(0, width - 1), random.randint(0, height- 1)
+        
+        maze[start_x][start_y] = 'S'
+        maze[end_x][end_y] = 'E'
+        
+        # Randomly create paths in the maze
+        for _ in range((width * height) // 4):
+            x, y = random.randint(0, width - 1), random.randint(0, width - 1)
+            maze[x][y] = ' '
+        return maze
+
     # Function to read a maze from maze.txt file
     def generate_maze(self,filename='maze.txt'):
         """
@@ -40,11 +59,13 @@ class Maze(object):
         return maze
 
     def setMaze(self,mazeString = ['*S*', '* *', '*E*']):
+        maze = []
         for row in mazeString:
             if 'S' in row:
                 self.myX = mazeString.index(row)
                 self.myY = row.index('S')
             self.maze.append(row)
+        self.maze = maze
         self.MAZE_W = len(mazeString)
         self.MAZE_H = len(mazeString[0])
         #print self.maze

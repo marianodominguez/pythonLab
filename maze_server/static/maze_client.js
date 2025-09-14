@@ -46,6 +46,29 @@ window.mdmlab = (() => {
         setStatus('');
     };
 
+    const newMaze = async () => {
+        try {
+            setStatus('Creating new maze...', 'loading');   
+            const response = await fetch('http://127.0.1:5000/api/newmaze');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const mazeData = await response.json();
+            if (mazeData.map) {
+                currentMaze = mazeData.map;
+                solutionPath = null;
+                dfsPath = null;
+                resizeCanvas();
+                setStatus('New maze created successfully!', 'success');
+            } else {
+                throw new Error('Invalid maze data received');
+            }
+        } catch (error) {
+            console.error('Error creating new maze:', error);
+            setStatus(`Error: ${error.message}`, 'error');
+        }
+    };
+
     const loadMaze = async () => {
         try {
             setStatus('Loading maze...', 'loading');
@@ -210,6 +233,7 @@ window.mdmlab = (() => {
         loadMaze,
         solveMaze,
         solveDFS,
-        clearCanvas
+        clearCanvas,
+        newMaze
     };
 })();
