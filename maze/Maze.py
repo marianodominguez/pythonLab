@@ -21,22 +21,63 @@ class Maze(object):
     myX, myY = (1,2)
 
     #function to creeate a maze 
-    def create_maze(self, width=100, height=100):
-        maze = []
+    def create_maze(self, width=100, height=100, max_path_len=5000):
         maze = [['*' for _ in range(height)] for _ in range(width)]
         # Randomly place start (S) and end (E) points
-        start_x, start_y = random.randint(0, width- 1), random.randint(0, height- 1)
-        end_x, end_y = random.randint(0, width - 1), random.randint(0, height- 1)
+        start_x, start_y = 0, random.randint(0, height - 1)
+        end_x, end_y = width - 1, random.randint(0, height - 1)
         while (end_x, end_y) == (start_x, start_y):
-            end_x, end_y = random.randint(0, width - 1), random.randint(0, height- 1)
-        
+            end_x, end_y = random.randint(0, width - 1), random.randint(0, height - 1)
+
         maze[start_x][start_y] = 'S'
         maze[end_x][end_y] = 'E'
-        
-        # Randomly create paths in the maze
-        for _ in range((width * height) // 4):
-            x, y = random.randint(0, width - 1), random.randint(0, width - 1)
-            maze[x][y] = ' '
+
+        # Generate a random path from start to end with a maximum length
+        x, y = start_x, start_y
+        path_cells = set()
+        path_cells.add((x, y))
+        steps = 0
+        while (x, y) != (end_x, end_y) and steps < max_path_len:
+            directions = []
+            if x < end_x:
+                directions.append((1, 0))
+            if x > end_x:
+                directions.append((-1, 0))
+            if y < end_y:
+                directions.append((0, 1))
+            if y > end_y:
+                directions.append((0, -1))
+            random.shuffle(directions)
+            moved = False
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < width and 0 <= ny < height and (nx, ny) not in path_cells:
+                    x, y = nx, ny
+                    path_cells.add((x, y))
+                    if (x, y) != (end_x, end_y):
+                        maze[x][y] = ' '
+                    moved = True
+                    steps += 1
+                    break
+            if not moved:
+                # No valid moves, stop path generation
+                # Fallback: directly connect to end
+                while x != end_x:
+                    x += 1 if x < end_x else -1
+                    if (x, y) != (end_x, end_y):
+                        maze[x][y] = ' '
+                while y != end_y:
+                    y += 1 if y < end_y else -1
+                    if (x, y) != (end_x, end_y):
+                        maze[x][y] = ' '
+                break
+
+        maze[end_x][end_y] = 'E'
+        # Optionally, add some random open cells elsewhere
+        for _ in range((width * height) // 10):
+            rx, ry = random.randint(0, width - 1), random.randint(0, height - 1)
+            if maze[rx][ry] == '*':
+                maze[rx][ry] = ' '
         return maze
 
     # Function to read a maze from maze.txt file
@@ -64,7 +105,7 @@ class Maze(object):
             if 'S' in row:
                 self.myX = mazeString.index(row)
                 self.myY = row.index('S')
-            self.maze.append(row)
+            maze.append(row)
         self.maze = maze
         self.MAZE_W = len(mazeString)
         self.MAZE_H = len(mazeString[0])
