@@ -193,7 +193,7 @@ class MazeApp(object):
 if __name__ == '__main__':
     m = Maze()
     app = MazeApp()
-    maze_map = m.generate_maze("maze_small.txt")
+    maze_map = m.create_maze(51, 51)
     app.setMaze(maze_map)
     app.display()
     app.game()

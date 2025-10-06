@@ -30,7 +30,7 @@ class Maze(object):
         maze = [['*' for _ in range(height)] for _ in range(width)]
         # Randomly place start (S) and end (E) points
         start_x, start_y = 1, 1
-        end_x, end_y = width -1, height - 2
+        end_x, end_y = width -2, height - 2
 
         stack = [(start_x, start_y)]
 

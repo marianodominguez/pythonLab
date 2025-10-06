@@ -7,7 +7,7 @@ from DisplayMazeApp import MazeApp
 # Create a maze instance, set the maze, display it, and start the game
 m = Maze()
 app = MazeApp()
-maze_map = m.create_maze(151, 151)
+maze_map = m.create_maze(301, 301)
 m.setMaze(maze_map)
 app.setMaze(maze_map)
 
