@@ -34,12 +34,14 @@ A web-based maze visualization client that fetches maze data from a Flask API an
 ### Visual Elements
 
 #### Maze Components
+
 - **Purple rectangles** (`#800080`) - Walls (`*`)
 - **Magenta squares** (`#f000f0`) - Start position (`S`)
 - **Green squares** (`green`) - End position (`E`)
 - **White squares** - Empty walkable spaces
 
 #### Solution Paths
+
 - **Yellow path** (`#ffff00`) - Regular solution algorithm
 - **Orange path** (`#ff6600`) - DFS solution algorithm
 
@@ -48,12 +50,14 @@ A web-based maze visualization client that fetches maze data from a Flask API an
 ### Technical Details
 
 #### Canvas Sizing
+
 - **Responsive**: Uses almost full window width (window width - 20px margin)
 - **Aspect Ratio**: Maintains maze proportions with square cells
 - **Vertical Space**: Uses up to 80% of viewport height
 - **Auto-resize**: Automatically adjusts when window is resized
 
 #### API Endpoints
+
 - `GET /api/maze` - Retrieves the current maze data
 - `GET /api/solve_maze` - Returns the solution path using standard algorithm
 - `GET /api/solve_dfs` - Returns the solution path using Depth-First Search
@@ -62,6 +66,7 @@ A web-based maze visualization client that fetches maze data from a Flask API an
 
 ### 📁 algorithms/
 Core algorithm implementations including:
+
 - **BinaryTree.py** - Binary tree data structure and operations
 - **Graphs.py** - Graph algorithms and representations
 - **hashtable.py** - Hash table implementation
@@ -69,13 +74,16 @@ Core algorithm implementations including:
 
 ### 📁 lab/
 Experimental projects and exercises:
+
 - **combinations.py** - Combinatorial algorithms
 - **opengl/** - OpenGL graphics experiments (gears, 3D shapes, solar system)
 - **quiz/** - Quiz applications (caterpillar data processing)
 - **twitter/** - Social media analysis tools and bot implementations
 
 ### 📁 maze/
+
 Maze generation and solving logic, fully separated from display/UI code:
+
 - **Maze.py** - Core maze logic: generation, solving (BFS, DFS), and data representation. Provides the `Maze` class with methods for creating, solving, and managing maze state.
 - **algorithms.py** *(optional)* - Additional maze algorithms or utilities that can be imported by `Maze.py` for advanced maze generation or solving strategies.
 - **testMaze.py** - Unit tests and validation for maze logic.
@@ -85,7 +93,9 @@ Maze generation and solving logic, fully separated from display/UI code:
 > **Note:** All logic in `maze/` is UI-agnostic and can be reused or tested independently of any display code.
 
 ### 📁 maze_server/
+
 **Web-based maze visualizer** (Flask server + JavaScript client):
+
 - **app.py** - Flask API server, serving maze data and solutions via REST endpoints.
 - **templates/index.html** - Web interface for user interaction.
 - **static/maze_client.js** - Interactive canvas client using modern JavaScript (ES6+).
@@ -93,11 +103,13 @@ Maze generation and solving logic, fully separated from display/UI code:
 
 ### 📁 pythonChallenge/
 Solutions to Python programming challenges:
+
 - **src/** - Challenge solutions (PC01-PC17)
 - Image processing, data decoding, and puzzle solving
 - OCR, pickle manipulation, and advanced Python techniques
 
 ### 📁 Root Files
+
 - **arrays.py** - Array manipulation utilities
 - **characters.py** - Character processing functions
 - **testGraph.py** - Graph algorithm testing
@@ -107,11 +119,13 @@ Solutions to Python programming challenges:
 ## Getting Started
 
 ### Prerequisites
+
 - Python 3.7+
 - Flask (for maze_server)
 - Modern web browser with HTML5 Canvas support
 
 ### Browser Compatibility
+
 - Requires modern browser with HTML5 Canvas support
 - Uses ES6+ features (async/await, arrow functions)
 - Responsive design works on desktop and mobile
@@ -119,12 +133,14 @@ Solutions to Python programming challenges:
 ## Development
 
 ### Architecture
+
 - **Modular Design**: Clear separation between maze logic (`maze/`), server API (`maze_server/app.py`), and client visualization (`maze_server/static/maze_client.js`)
 - **Async Operations**: Non-blocking API calls with proper error handling
 - **Responsive UI**: Canvas adapts to any screen size while maintaining maze proportions
 - **Clean Code**: Well-documented functions with clear separation of responsibilities
 
 ### Key Technologies
+
 - **Backend**: Python Flask for API server
 - **Frontend**: Vanilla JavaScript with HTML5 Canvas
 - **Algorithms**: Multiple maze solving implementations
