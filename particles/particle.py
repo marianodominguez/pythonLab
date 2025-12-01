@@ -14,15 +14,15 @@ class Particle:
         
         self.mass = radius  # Simple mass approximation
 
-    def move(self, gravity=0.5, friction=0.99, grav_center=(400, 300)):
+    def move(self, gravity=0.5, friction=0.99, grav_center=(0, 0)):
         self.vx *= friction
         self.vy *= friction
         self.x += self.vx
         self.y += self.vy
 
-        # Gravitational attraction to center
-        dx = grav_center[0] - self.x
-        dy = grav_center[1] - self.y
+        # Gravitational attraction to bottom
+        dx = 0.0
+        dy = 0.5
         dist = max(1, (dx**2 + dy**2)**0.5)
         force = 0.5 # Attraction strength
         self.vx += (dx / dist) * force
